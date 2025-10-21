@@ -88,6 +88,7 @@
                     ) );
                     ?>
                 </nav>
+                <div class="site-overlay"></div>
                 <button class="burger-menu-toggle" aria-label="Open menu" aria-expanded="false">
                     <span></span>
                     <span></span>

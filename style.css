@@ -20,6 +20,8 @@ Tags: landing-page, custom-theme, multilingual
 
 html {
     -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 150px;
 }
 
 body {
@@ -41,7 +43,7 @@ svg {
     --dark-purple: #9B1D80;
     --light-pink: #E8A7D6;
     --text-color: #313131;
-    --background-color: #F8FBF5;
+    --background-color: #fbf5fa;
     --white-color: #FFFFFF;
 }
 
@@ -58,7 +60,7 @@ body.mobile-menu-open {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 15px;
 }
@@ -75,6 +77,9 @@ body.mobile-menu-open {
 .site-header {
     background-color: var(--white-color);
     border-bottom: 1px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
 }
 
 .main-header .container {
@@ -176,7 +181,7 @@ body.mobile-menu-open {
     left: 0;
     background-color: var(--white-color);
     border: 1px solid #e0e0e0;
-    border-radius: 5px;
+    border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     list-style: none;
     margin: 0;
@@ -286,6 +291,30 @@ body.mobile-menu-open {
     transform: rotate(-135deg);
 }
 
+.site-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Затемнение */
+    z-index: 999; /* Чуть ниже меню (1000), но выше всего остального */
+    
+    /* Эффект размытия (блюр) */
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    
+    /* Скрываем по умолчанию */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.site-overlay.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
 /* --- Footer Styles --- */
 .site-footer {
     background-color: var(--white-color);
@@ -305,12 +334,12 @@ body.mobile-menu-open {
 }
 
 .footer-column {
-    flex: 1;
+    /* flex: 1; */
 }
 
 .footer-column-left {
-    max-width: 300px; /* Ограничим ширину левой колонки */
-    flex-basis: 30%;
+    max-width: 300px;
+    /* flex-basis: 30%; */
 }
 
 .footer-column-left img {
@@ -319,7 +348,7 @@ body.mobile-menu-open {
 }
 
 .footer-column-center, .footer-column-right {
-    flex-basis: 25%;
+    /* flex-basis: 25%; */
 }
 
 .footer-description {
@@ -391,10 +420,528 @@ body.mobile-menu-open {
 .developer-credit a { color: #888; text-decoration: none; }
 .developer-credit a:hover { color: var(--primary-purple); }
 
+/* --- Hero Section Styles --- */
+.hero-section {
+    position: relative;
+    height: 70vh; /* Высота 70% от высоты экрана */
+    min-height: 450px;
+    background-size: cover;
+    background-position: center center;
+    color: var(--white-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Затемнение для читаемости */
+    z-index: 1;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content {
+    max-width: 750px; /* Ограничим ширину контента */
+    margin: 0 auto;
+}
+
+.hero-title {
+    font-size: 52px;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.hero-subtitle {
+    font-size: 18px;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    line-height: 1.7;
+}
+
+.hero-button {
+    display: inline-block;
+    background-color: var(--primary-purple);
+    color: var(--white-color);
+    padding: 16px 35px;
+    border-radius: 15px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: 2px solid var(--primary-purple);
+}
+
+.hero-button:hover {
+    background-color: var(--dark-purple);
+    border-color: var(--dark-purple);
+    transform: translateY(-2px); /* Легкий эффект "подъема" */
+}
+
+/* --- Advantages Section Styles (Обновленный дизайн) --- */
+.advantages-section {
+    padding: 60px 0;
+    background-color: var(--white-color); /* Используем фон темы, чтобы карточки выделялись */
+}
+
+/* Общий заголовок для секций */
+.section-title {
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 50px;
+    color: var(--text-color);
+}
+
+.advantages-grid {
+    display: grid;
+    /* Обновлено: 2 колонки в ряду */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 30px;
+}
+
+.advantage-item {
+    text-align: center;
+    padding: 30px;
+    background-color: var(--white-color); /* Новый фон для карточки */
+    border: 1px solid #e0e0e0;           /* Новая рамка */
+    border-radius: 24px;                  /* Скругление углов */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03); /* Легкая тень */
+    /* Плавный переход для ховер-эффекта */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.advantage-item:hover {
+    /* Новый эффект при наведении */
+    transform: translateY(-5px); /* "Поднимаем" карточку */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08); /* Усиливаем тень */
+    border-color: var(--primary-purple); /* Меняем цвет рамки */
+}
+
+.advantage-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px; /* Немного уменьшим иконку */
+    height: 70px;
+    margin-bottom: 20px;
+    color: var(--primary-purple);
+}
+
+.advantage-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.advantage-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.advantage-description {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* --- Catalog Section Styles --- */
+.catalog-section {
+    padding: 60px 0;
+    background-color: var(--background-color);
+}
+
+.catalog-grid {
+    display: flex;
+    flex-wrap: wrap; /* Позволяет переносить элементы на новую строку */
+    justify-content: center; /* Центрирует ряды (ключевое требование) */
+    gap: 30px; /* Пространство между карточками */
+}
+
+.catalog-item {
+    /* Задаем базовую ширину. ~4 в ряд на 1200px. */
+    width: calc(calc(100% - 90px) / 4); 
+    text-align: center;
+}
+
+.catalog-item-image-wrapper {
+    aspect-ratio: 1 / 1; /* Создает идеальный квадрат */
+    background-color: var(--light-pink); /* Твой светло-розовый фон */
+    border-radius: 24px;
+    padding: 0;
+    margin-bottom: 15px; /* Отступ до названия */
+    overflow: hidden;
+    
+    /* Центрируем изображение внутри квадрата */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.catalog-item:hover .catalog-item-image-wrapper {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.07);
+}
+
+.catalog-item-image-wrapper img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Гарантирует, что продукт виден полностью */
+}
+
+.catalog-item-name {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-color);
+    margin: 0;
+}
+
+/* --- About Section Styles --- */
+.about-section {
+    padding: 60px 0;
+    background-color: var(--white-color);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 равные колонки */
+    align-items: center; /* Выравнивание по центру по вертикали */
+    gap: 50px;
+}
+
+.about-image-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.about-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Новый класс для заголовков, выровненных по левому краю */
+.section-title-left {
+    font-size: 36px;
+    font-weight: 700;
+    text-align: left;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.about-content {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #666;
+}
+.about-content p {
+    margin-top: 0;
+}
+
+.about-values-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.value-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.value-icon {
+    flex-shrink: 0; /* Иконка не будет сжиматься */
+    width: 28px;
+    height: 28px;
+    color: var(--primary-purple);
+}
+
+.value-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.value-text {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+/* --- Testimonials Section Styles --- */
+.testimonials-section {
+    padding: 60px 0;
+    background-color: var(--background-color);
+}
+
+.testimonials-slider-wrapper {
+    position: relative; /* Для позиционирования стрелок */
+    width: 100%;
+    overflow: hidden; /* Важно для слайдера */
+}
+
+/* Мы добавляем отступы слева/справа к самому слайдеру,
+  чтобы первый и последний слайды не "прилипали" к краям экрана.
+*/
+.testimonials-slider {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 50px; /* Место для пагинации */
+}
+
+.swiper-slide {
+    height: auto; /* Позволяем слайдам иметь разную высоту */
+}
+
+.testimonial-item {
+    background-color: var(--white-color); /* Твой фон */
+    border-radius: 24px;
+    padding: 25px;
+    height: 100%; /* Карточка занимает всю высоту слайда */
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--primary-purple);
+}
+
+.testimonial-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.testimonial-avatar {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary-purple); /* Твой розовый */
+    color: var(--white-color);
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.testimonial-name {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.testimonial-rating {
+    display: flex;
+    gap: 3px;
+}
+
+.star {
+    width: 16px;
+    height: 16px;
+    /* Используем mask, чтобы создать форму звезды и красить ее */
+    background-color: #ccc; /* Цвет пустой звезды */
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27z'/%3E%3C/svg%3E");
+}
+
+.star.filled {
+    background-color: #FFC107; /* Цвет заполненной звезды (золотой) */
+}
+
+.testimonial-content {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Стилизация навигации Swiper */
+.swiper-button-next,
+.swiper-button-prev {
+    color: var(--primary-purple); /* Цвет стрелок */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.swiper-button-prev { left: 20px; }
+.swiper-button-next { right: 20px; }
+
+.swiper-pagination-bullet {
+    background-color: #aaa;
+    opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: var(--primary-purple);
+}
+
+/* --- Contact Section Styles --- */
+.contact-section {
+    padding: 80px 0;
+    background-color: var(--white-color);
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: flex-start; /* Выравнивание по верху */
+    gap: 50px;
+}
+
+.contact-intro {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #666;
+}
+
+.contact-image {
+    margin-top: 30px;
+}
+
+.contact-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* =============================================
+Стилизация Contact Form 7
+=============================================
+*/
+
+/* Убираем лишние <p> теги, которые CF7 добавляет */
+.wpcf7-form p {
+    margin: 0;
+}
+
+/* Обертка для каждого поля (CF7 <p>) */
+.wpcf7-form-control-wrap {
+    display: block;
+    margin-bottom: 20px;
+}
+
+/* Стили для текстовых полей */
+.contact-form-wrapper .wpcf7-form input[type="text"],
+.contact-form-wrapper .wpcf7-form input[type="email"],
+.contact-form-wrapper .wpcf7-form input[type="tel"],
+.contact-form-wrapper .wpcf7-form textarea {
+    width: 100%;
+    padding: 14px 18px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Убираем некрасивую тень на iPhone */
+.contact-form-wrapper .wpcf7-form input,
+.contact-form-wrapper .wpcf7-form textarea {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Фокус на полях */
+.contact-form-wrapper .wpcf7-form input:focus,
+.contact-form-wrapper .wpcf7-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-purple);
+    box-shadow: 0 0 0 3px var(--light-pink);
+}
+
+.contact-form-wrapper .wpcf7-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Стили для кнопки "Отправить" */
+.contact-form-wrapper .wpcf7-submit {
+    display: inline-block;
+    background-color: var(--primary-purple);
+    color: var(--white-color);
+    padding: 16px 35px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: 2px solid var(--primary-purple);
+    cursor: pointer;
+    width: 100%; /* Кнопка на всю ширину */
+}
+
+.contact-form-wrapper .wpcf7-submit:hover {
+    background-color: var(--dark-purple);
+    border-color: var(--dark-purple);
+    transform: translateY(-2px);
+}
+
+/* Сообщения об успехе / ошибке */
+.contact-form-wrapper .wpcf7-response-output {
+    margin: 20px 0 0 0 !important; /* !important нужен :( */
+    padding: 15px !important;
+    border-radius: 5px;
+    font-size: 15px;
+}
+.contact-form-wrapper .wpcf7-mail-sent-ok {
+    border: 1px solid #1F8E3C; /* Успех (темно-зеленый) */
+    background: #F8FBF5;
+    color: #1F8E3C;
+}
+.contact-form-wrapper .wpcf7-validation-errors {
+    border: 1px solid #D8000C; /* Ошибка */
+    background: #FFF8F8;
+    color: #D8000C;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 1200px) {
+    /* На планшетах можно оставить 2 колонки, они уже настроены */
+    .advantages-grid {
+        gap: 20px;
+    }
+    .catalog-grid {
+        gap: 20px;
+    }
+    .catalog-item {
+        /* 2 колонки на планшетах */
+        width: calc(50% - 10px);
+    }
+    .about-grid {
+        gap: 30px;
+    }
+    .section-title-left {
+        font-size: 30px;
+    }
+}
+
 /* ==========================================================================
    Mobile & Tablet Styles (адаптация)
    ========================================================================== */
-@media (max-width: 992px) {
+@media (max-width: 768px) {
 
     /* Показываем бургер */
     .burger-menu-toggle {
@@ -409,7 +956,7 @@ body.mobile-menu-open {
         width: 300px;
         /* Ширина панели */
         max-width: 80%;
-        height: 100vh;
+        height: 100dvh;
         background-color: var(--white-color);
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
         padding: 100px 30px 30px;
@@ -462,5 +1009,67 @@ body.mobile-menu-open {
     .footer-bottom .container {
         flex-direction: column;
         gap: 10px;
+    }
+
+    .footer-messengers {
+        justify-content: space-between;
+    }
+
+    .hero-title {
+        font-size: 36px;
+    }
+    .hero-subtitle {
+        font-size: 16px;
+    }
+    .section-title {
+        font-size: 30px;
+    }
+    .advantages-grid {
+        /* Обновлено: 1 колонка на мобильных */
+        grid-template-columns: 1fr;
+    }
+    .catalog-item {
+        /* 1 колонка на мобильных, но с ограничением */
+        max-width: 600px; 
+    }
+    .about-grid {
+        /* 1 колонка на мобильных */
+        grid-template-columns: 1fr;
+    }
+    .about-image-wrapper {
+        /* Изображение будет первым на мобильных */
+        order: 1; 
+    }
+    .about-content-wrapper {
+        order: 2;
+        text-align: center; /* Центрируем контент */
+    }
+    .section-title-left {
+        text-align: center;
+    }
+    .swiper-button-prev, .swiper-button-next {
+        /* Прячем стрелки на мобильных для чистоты */
+        display: none;
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-content-wrapper {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .section-title-left {
+        text-align: center;
+    }
+
+    .contact-section,
+    .testimonials-section,
+    .about-section,
+    .catalog-section,
+    .advantages-section {
+        padding: 40px 0;
     }
 }

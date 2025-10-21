@@ -1,14 +1,7 @@
 <footer id="colophon" class="site-footer">
     <?php
-    // Определяем разрешенные теги для SVG для безопасности
-    $allowed_svg_tags = array(
-        'svg' => array(
-            'xmlns' => true, 'viewbox' => true, 'width' => true, 'height' => true, 'fill' => true,
-        ),
-        'path' => array(
-            'd' => true, 'fill' => true,
-        ),
-    );
+    // Получаем наш "мастер-список" разрешенных тегов из functions.php
+    $allowed_svg_tags = timkawasheu_get_allowed_svg_tags();
     ?>
     <div class="footer-main">
         <div class="container">
