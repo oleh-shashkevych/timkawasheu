@@ -256,6 +256,38 @@ acf_add_local_field_group(array(
 			'placeholder' => 'Short engaging text for wholesale customers.',
 		),
 		array(
+			'key' => 'field_show_hero_key_benefit',
+			'label' => 'Show Key Benefit?',
+			'name' => 'show_hero_key_benefit',
+			'type' => 'true_false',
+			'instructions' => 'Enable to show an accented line of text (e.g., "Direct Manufacturer Pricing").',
+			'ui' => 1,
+		),
+        array(
+			'key' => 'field_hero_key_benefit_icon',
+			'label' => 'Key Benefit Icon (SVG Code)',
+			'name' => 'hero_key_benefit_icon',
+			'type' => 'textarea',
+            'rows' => 3,
+            'conditional_logic' => array(
+				array(
+					array( 'field' => 'field_show_hero_key_benefit', 'operator' => '==', 'value' => '1' ),
+				),
+			),
+		),
+        array(
+			'key' => 'field_hero_key_benefit_text',
+			'label' => 'Key Benefit Text',
+			'name' => 'hero_key_benefit_text',
+			'type' => 'text',
+            'default_value' => 'Direct Manufacturer Pricing',
+            'conditional_logic' => array(
+				array(
+					array( 'field' => 'field_show_hero_key_benefit', 'operator' => '==', 'value' => '1' ),
+				),
+			),
+		),
+		array(
 			'key' => 'field_hero_button_text',
 			'label' => 'Button Text',
 			'name' => 'hero_button_text',
@@ -280,6 +312,115 @@ acf_add_local_field_group(array(
 	'hide_on_screen' => array(
 		0 => 'the_content', // Скрываем стандартный редактор
 	),
+));
+
+// Группа полей для секции "Бренды" (Marquee)
+acf_add_local_field_group(array(
+	'key' => 'group_brands_section',
+	'title' => 'Page Brands Marquee',
+	'fields' => array(
+		array(
+			'key' => 'field_brands_section_title',
+			'label' => 'Section Title',
+			'name' => 'brands_section_title',
+			'type' => 'text',
+            'placeholder' => 'e.g., Our Brands / We Produce For',
+		),
+		array(
+			'key' => 'field_brand_logos',
+			'label' => 'Brand Logos',
+			'name' => 'brand_logos',
+			'type' => 'repeater',
+			'layout' => 'table',
+            'button_label' => 'Add Logo',
+			'sub_fields' => array(
+				array(
+					'key' => 'field_brand_logo_img',
+					'label' => 'Logo Image',
+					'name' => 'brand_logo_img',
+					'type' => 'image',
+                    'return_format' => 'array', // Возвращаем массив для alt-текста
+                    'preview_size' => 'thumbnail',
+				),
+			),
+		),
+	),
+	'location' => array(
+		array(
+			array(
+				'param' => 'page_type',
+				'operator' => '==',
+				'value' => 'front_page',
+			),
+		),
+	),
+	'menu_order' => 5, // Сразу после Hero (у которого 0)
+	'position' => 'normal',
+	'style' => 'default',
+));
+
+// Группа полей для секции "Цикл Производства"
+acf_add_local_field_group(array(
+	'key' => 'group_cycle_section',
+	'title' => 'Page Production Cycle',
+	'fields' => array(
+		array(
+			'key' => 'field_cycle_section_title',
+			'label' => 'Section Title',
+			'name' => 'cycle_section_title',
+			'type' => 'text',
+            'default_value' => 'Цикл виробництва',
+		),
+        array(
+			'key' => 'field_cycle_background_image',
+			'label' => 'Background Image',
+			'name' => 'cycle_background_image',
+			'type' => 'image',
+            'return_format' => 'id',
+		),
+        array(
+			'key' => 'field_cycle_central_image',
+			'label' => 'Central Graphic',
+			'name' => 'cycle_central_image',
+			'type' => 'image',
+            'instructions' => 'Upload the graphic (bottle with numbers) here. (e.g., image_c230db.jpg)',
+            'return_format' => 'id',
+		),
+		array(
+			'key' => 'field_cycle_steps',
+			'label' => 'Production Steps (Text List)',
+			'name' => 'cycle_steps',
+			'type' => 'repeater',
+			'layout' => 'block',
+			'button_label' => 'Add Step',
+			'sub_fields' => array(
+				array(
+					'key' => 'field_cycle_step_title',
+					'label' => 'Title',
+					'name' => 'step_title',
+					'type' => 'text',
+				),
+                array(
+					'key' => 'field_cycle_step_desc',
+					'label' => 'Description',
+					'name' => 'step_description',
+					'type' => 'text',
+				),
+			),
+		),
+	),
+	'location' => array(
+		array(
+			array(
+				'param' => 'page_type',
+				'operator' => '==',
+				'value' => 'front_page',
+			),
+		),
+	),
+	'menu_order' => 7, // Между "Брендами" (1) и "Преимуществами" (2)
+	'position' => 'normal',
+	'style' => 'default',
 ));
 
 // Группа полей для секции "Преимущества"
@@ -334,7 +475,7 @@ acf_add_local_field_group(array(
 			),
 		),
 	),
-	'menu_order' => 1, // Ставим после Hero-секции
+	'menu_order' => 10, // Ставим после Hero-секции
 	'position' => 'normal',
 	'style' => 'default',
 ));
@@ -385,7 +526,7 @@ acf_add_local_field_group(array(
 			),
 		),
 	),
-	'menu_order' => 2, // После секции "Преимущества"
+	'menu_order' => 20, // После секции "Преимущества"
 	'position' => 'normal',
 	'style' => 'default',
 ));
@@ -451,7 +592,7 @@ acf_add_local_field_group(array(
 			),
 		),
 	),
-	'menu_order' => 3, // После "Каталога"
+	'menu_order' => 30, // После "Каталога"
 	'position' => 'normal',
 	'style' => 'default',
 ));
@@ -511,7 +652,7 @@ acf_add_local_field_group(array(
 			),
 		),
 	),
-	'menu_order' => 4, // После "О компании"
+	'menu_order' => 40, // После "О компании"
 	'position' => 'normal',
 	'style' => 'default',
 ));
@@ -560,7 +701,7 @@ acf_add_local_field_group(array(
 			),
 		),
 	),
-	'menu_order' => 6, // Последняя секция
+	'menu_order' => 60, // Последняя секция
 	'position' => 'normal',
 	'style' => 'default',
 ));

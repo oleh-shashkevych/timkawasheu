@@ -13,8 +13,15 @@ get_header();
     $hero_subtitle = get_field('hero_subtitle');
     $hero_btn_text = get_field('hero_button_text');
     
+    // Новые поля
+    $show_benefit = get_field('show_hero_key_benefit');
+    $benefit_icon = get_field('hero_key_benefit_icon');
+    $benefit_text = get_field('hero_key_benefit_text');
+    
     // Получаем URL картинки из её ID
     $hero_bg_url = $hero_bg_id ? wp_get_attachment_image_url($hero_bg_id, 'full') : '';
+    // Получаем список разрешенных SVG тегов
+    $allowed_svg_tags = timkawasheu_get_allowed_svg_tags();
 
     // Проверяем, есть ли хотя бы заголовок, чтобы отобразить секцию
     if( $hero_title ):
@@ -31,11 +38,102 @@ get_header();
                     <p class="hero-subtitle"><?php echo nl2br(esc_html($hero_subtitle)); ?></p>
                 <?php endif; ?>
 
+                <?php
+                if ( $show_benefit && $benefit_text ): 
+                ?>
+                    <div class="hero-key-benefit">
+                        <?php if ($benefit_icon): ?>
+                            <?php echo wp_kses($benefit_icon, $allowed_svg_tags); ?>
+                        <?php endif; ?>
+                        <span><?php echo esc_html($benefit_text); ?></span>
+                    </div>
+                <?php endif;
+                ?>
+
                 <?php if ($hero_btn_text): ?>
-                    <a href="#contact-section" class="hero-button">
-                        <?php echo esc_html($hero_btn_text); ?>
-                    </a>
+                    <div class="hero-button-wrapper">
+                        <a href="#contact-section" class="hero-button">
+                            <?php echo esc_html($hero_btn_text); ?>
+                        </a>
+                    </div>
                 <?php endif; ?>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
+
+    <?php
+    // --- Brands Section (Static Grid) ---
+    $brands_title = get_field('brands_section_title');
+    $logos = get_field('brand_logos');
+
+    if( $brands_title || $logos ):
+    ?>
+    <section class="brands-section">
+        <div class="container">
+            <?php if ($brands_title): ?>
+                <h2 class="section-title"><?php echo esc_html($brands_title); ?></h2>
+            <?php endif; ?>
+            
+            <?php if( $logos ): ?>
+                <div class="brands-grid-wrapper"> <div class="brands-grid"> <?php // Оставляем ТОЛЬКО ОДИН цикл
+                        foreach( $logos as $logo ): ?>
+                            <div class="brand-logo-item">
+                                <img src="<?php echo esc_url($logo['brand_logo_img']['url']); ?>" alt="<?php echo esc_attr($logo['brand_logo_img']['alt']); ?>" />
+                            </div>
+                        <?php endforeach; ?>
+
+                    </div>
+                </div>
+            <?php endif; ?>
+        </div>
+    </section>
+    <?php endif; ?>
+
+    <?php
+    // --- Production Cycle Section ---
+    $cycle_title = get_field('cycle_section_title');
+    $cycle_bg_id = get_field('cycle_background_image');
+    $cycle_bg_url = $cycle_bg_id ? wp_get_attachment_image_url($cycle_bg_id, 'full') : '';
+    
+    $cycle_img_id = get_field('cycle_central_image');
+    $cycle_img_url = $cycle_img_id ? wp_get_attachment_image_url($cycle_img_id, 'large') : '';
+    
+    if( $cycle_title || $cycle_img_id ):
+    ?>
+    <section class="cycle-section" style="background-image: url('<?php echo esc_url($cycle_bg_url); ?>');">
+        <div class="cycle-overlay"></div>
+        <div class="container">
+            <?php if ($cycle_title): ?>
+                <h2 class="section-title"><?php echo esc_html($cycle_title); ?></h2>
+            <?php endif; ?>
+
+            <div class="cycle-grid">
+                
+                <div class="cycle-graphic-wrapper">
+                    <?php if ($cycle_img_url): ?>
+                        <img src="<?php echo esc_url($cycle_img_url); ?>" alt="<?php echo esc_attr($cycle_title); ?>">
+                    <?php endif; ?>
+                </div>
+
+                <div class="cycle-steps-wrapper">
+                    <?php if( have_rows('cycle_steps') ): ?>
+                        <ol class="cycle-steps-list">
+                            <?php while( have_rows('cycle_steps') ): the_row(); 
+                                $step_title = get_sub_field('step_title');
+                                $step_desc = get_sub_field('step_description');
+                            ?>
+                                <li>
+                                    <div class="step-content">
+                                        <h4><?php echo esc_html($step_title); ?></h4>
+                                        <p><?php echo esc_html($step_desc); ?></p>
+                                    </div>
+                                </li>
+                            <?php endwhile; ?>
+                        </ol>
+                    <?php endif; ?>
+                </div>
+
             </div>
         </div>
     </section>

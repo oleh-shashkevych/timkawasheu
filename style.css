@@ -435,6 +435,29 @@ body.mobile-menu-open {
     overflow: hidden;
 }
 
+.hero-key-benefit {
+    display: inline-flex; /* Используем inline-flex, чтобы блок был по центру */
+    align-items: center;
+    gap: 10px;
+    padding: 8px 15px;
+    border-radius: 50px; /* Делаем "капсулу" */
+    background-color: rgba(255, 255, 255, 0.1); /* Легкая полупрозрачная подложка */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--white-color);
+    font-weight: 600;
+    font-size: 16px;
+    margin-top: 10px; /* Небольшой отступ от субтитра */
+    margin-bottom: 25px; /* Отступ до кнопки */
+    -webkit-backdrop-filter: blur(3px); /* Легкий блюр фона (если оверлей полупрозрачный) */
+    backdrop-filter: blur(3px);
+}
+
+.hero-key-benefit svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
 .hero-overlay {
     position: absolute;
     top: 0;
@@ -442,6 +465,7 @@ body.mobile-menu-open {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); /* Затемнение для читаемости */
+    backdrop-filter: blur(8px);
     z-index: 1;
 }
 
@@ -451,7 +475,7 @@ body.mobile-menu-open {
 }
 
 .hero-content {
-    max-width: 750px; /* Ограничим ширину контента */
+    max-width: 850px; /* Ограничим ширину контента */
     margin: 0 auto;
 }
 
@@ -460,6 +484,7 @@ body.mobile-menu-open {
     font-weight: 700;
     margin-top: 0;
     margin-bottom: 20px;
+    line-height: 1.2;
 }
 
 .hero-subtitle {
@@ -487,6 +512,146 @@ body.mobile-menu-open {
     background-color: var(--dark-purple);
     border-color: var(--dark-purple);
     transform: translateY(-2px); /* Легкий эффект "подъема" */
+}
+
+/* --- Brands Marquee Section (JS-Powered) --- */
+/* @keyframes scroll-left был удален */
+
+.brands-section {
+    padding: 60px 0;
+    background-color: var(--white-color);
+}
+
+.brands-grid {
+    display: flex;
+    flex-wrap: wrap; /* Позволяет переноситься на новую строку */
+    justify-content: center; /* Центрирует логотипы */
+    align-items: center;
+    gap: 40px; /* Отступы между логотипами */
+}
+
+.brand-logo-item img {
+    width: auto;
+    max-width: 150px; /* Ограничим макс. ширину, чтобы один не был слишком большим */
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.brand-logo-item img:hover {
+    opacity: 1;
+}
+
+/* --- Production Cycle Section --- */
+.cycle-section {
+    padding: 60px 0;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    color: var(--text-color); /* Изменили цвет текста на более темный для светлого фона */
+    background-color: var(--background-color); /* Добавим фоновый цвет на случай отсутствия картинки */
+}
+
+/* Оверлей для осветления фона, если картинка темная */
+.cycle-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7); /* Более светлый оверлей */
+    z-index: 1;
+}
+
+.cycle-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Новый класс для заголовка на светлом фоне */
+.section-title-dark {
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 50px;
+    color: var(--text-color); /* Темный заголовок */
+}
+
+.cycle-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: flex-start; /* Выравнивание по верху */
+    gap: 40px;
+}
+
+/* =============================================
+СТИЛИ ДЛЯ "ЛЕСЕНКИ" (ТОЛЬКО НА БОЛЬШИХ ЭКРАНАХ)
+============================================= */
+
+.cycle-steps-list {
+    list-style: none;
+    counter-reset: cycle-counter;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    /* Создаем 2 колонки, но с гибким позиционированием */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px 50px; /* Отступы между элементами */
+}
+
+.cycle-graphic-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.cycle-graphic-wrapper img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 24px;
+}
+
+.cycle-steps-list li {
+    position: relative;
+    padding-left: 0; /* Обнуляем старый padding */
+    margin-bottom: 0; /* Обнуляем старый margin */
+    min-height: auto;
+    display: block; /* Изменяем на блок для лучшего контроля */
+    line-height: 1.4;
+}
+
+.cycle-steps-list li:nth-child(even) {
+    margin-block-start: 40px;
+}
+
+.cycle-steps-list li::before {
+    counter-increment: cycle-counter;
+    content: counter(cycle-counter);
+    position: static; /* Становится обычным элементом в потоке */
+    transform: none; /* Обнуляем старый transform */
+    display: block; /* Чтобы цифра была над текстом */
+    text-align: left; /* Цифра слева */
+    font-size: 60px; /* Большая цифра */
+    font-weight: 700;
+    color: var(--primary-purple); /* Твой фирменный цвет */
+    opacity: 0.8;
+    margin-bottom: 5px; /* Отступ между цифрой и текстом */
+}
+
+.cycle-steps-list h4 {
+    font-size: 20px;
+    margin: 0 0 5px 0;
+    font-weight: 600;
+    color: var(--dark-blue); /* Темный цвет для заголовка */
+}
+
+.cycle-steps-list p {
+    margin: 0;
+    font-size: 16px;
+    color: #666;
+    opacity: 1;
 }
 
 /* --- Advantages Section Styles (Обновленный дизайн) --- */
@@ -1020,6 +1185,58 @@ body.mobile-menu-open {
     }
     .hero-subtitle {
         font-size: 16px;
+    }
+    .section-title-dark {
+        margin-bottom: 30px;
+    }
+
+    .cycle-grid {
+        grid-template-columns: 1fr; /* В одну колонку */
+    }
+    
+    .cycle-graphic-wrapper {
+        display: block; /* Показываем картинку на мобилке */
+        margin-bottom: 40px;
+    }
+    .cycle-graphic-wrapper img {
+        max-width: 300px; /* Меньше на мобилке */
+    }
+
+    .cycle-steps-wrapper {
+        grid-column: auto; /* Сбрасываем занимаемую ширину */
+    }
+
+    .cycle-steps-list {
+        display: block; /* Возвращаем к обычному блочному поведению */
+    }
+
+    .cycle-steps-list li {
+        padding-left: 80px; /* Возвращаем отступ для цифры слева */
+        margin-bottom: 25px; /* Возвращаем отступ между элементами */
+        min-height: 60px; /* Возвращаем минимальную высоту */
+        display: flex; /* Возвращаем flex для выравнивания */
+        align-items: center;
+    }
+
+    .cycle-steps-list li::before {
+        position: absolute; /* Возвращаем абсолютное позиционирование */
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%); /* Возвращаем центрирование по вертикали */
+        font-size: 60px;
+        color: var(--primary-purple); /* Цвет цифры */
+        opacity: 0.8;
+        margin-bottom: 0; /* Убираем отступ */
+        display: inline-block; /* Становится inline-block */
+    }
+
+    .cycle-steps-list h4,
+    .cycle-steps-list p {
+        color: var(--text-color); /* Снова темный текст */
+    }
+
+    .cycle-steps-list li:nth-child(even) {
+        margin-block-start: unset;
     }
     .section-title {
         font-size: 30px;
