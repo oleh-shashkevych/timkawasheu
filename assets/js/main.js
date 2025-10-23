@@ -117,4 +117,24 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     });
 
+    // --- Product Gallery Sliders ---
+    // Находим *все* слайдеры товаров на странице
+    const productSliders = document.querySelectorAll('.product-gallery-slider');
+    
+    productSliders.forEach(slider => {
+        // Инициализируем Swiper для каждого
+        new Swiper(slider, {
+            loop: true,
+            slidesPerView: 1,
+            grabCursor: true,
+            
+            // Настройки пагинации (точек)
+            pagination: {
+                el: slider.querySelector('.swiper-pagination'), // Ищем пагинацию *внутри* этого слайдера
+                clickable: true,
+            },
+            
+            // Стрелки (navigation) не добавляем, как ты и просил
+        });
+    });
 });

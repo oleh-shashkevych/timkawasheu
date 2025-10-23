@@ -63,6 +63,7 @@
                 &copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>.
             </div>
             <div class="developer-credit">
+                developed by 
                 <?php 
                 $dev_name = get_field('developer_name', 'option');
                 $dev_url = get_field('developer_url', 'option');

@@ -501,11 +501,11 @@ acf_add_local_field_group(array(
 			'button_label' => 'Add Product',
 			'sub_fields' => array(
 				array(
-					'key' => 'field_product_image',
-					'label' => 'Product Image',
-					'name' => 'product_image',
-					'type' => 'image',
-                    'return_format' => 'url', // Возвращаем URL для <img>
+					'key' => 'field_product_images', // Изменили key
+					'label' => 'Product Gallery',  // Изменили label
+					'name' => 'product_images',   // Изменили name
+					'type' => 'gallery',         // ИЗМЕНИЛИ ТИП
+                    'return_format' => 'array',  // Галерея вернет массив картинок
                     'preview_size' => 'medium',
 				),
                 array(

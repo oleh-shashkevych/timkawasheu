@@ -202,16 +202,23 @@ get_header();
             <?php if( have_rows('catalog_products') ): ?>
                 <div class="catalog-grid">
                     <?php while( have_rows('catalog_products') ): the_row(); 
-                        $image_url = get_sub_field('product_image');
+                        $images = get_sub_field('product_images'); // Получаем массив картинок
                         $name = get_sub_field('product_name');
 
-                        if( $image_url && $name ):
+                        if( $images && $name ):
                     ?>
                         <div class="catalog-item">
-                            <div class="catalog-item-image-wrapper">
-                                <img src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($name); ?>" />
+                            <div class="catalog-item-image-wrapper swiper product-gallery-slider">
+                                <div class="swiper-wrapper">
+                                    <?php foreach( $images as $image ): ?>
+                                        <div class="swiper-slide">
+                                            <img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                                <div class="swiper-pagination"></div>
                             </div>
-                            <h3 class="catalog-item-name"><?php echo esc_html($name); ?></h3>
+                            <h3 class="catalog-item-name"><?php echo wp_kses($name, array('br' => array())); ?></h3>
                         </div>
                     <?php 
                         endif;
