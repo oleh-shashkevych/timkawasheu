@@ -1221,7 +1221,8 @@ body.mobile-menu-open {
         margin-bottom: 40px;
     }
     .cycle-graphic-wrapper img {
-        max-width: 300px; /* Меньше на мобилке */
+        max-width: 100%;
+        position: unset;
     }
 
     .cycle-steps-wrapper {
@@ -1262,6 +1263,7 @@ body.mobile-menu-open {
     }
     .section-title {
         font-size: 30px;
+        margin-bottom: 40px;
     }
     .advantages-grid {
         /* Обновлено: 1 колонка на мобильных */
