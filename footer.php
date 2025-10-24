@@ -10,7 +10,7 @@
                 if ( has_custom_logo() ) { the_custom_logo(); } 
                 else { echo '<a class="site-title-fallback" href="' . esc_url( home_url( '/' ) ) . '">' . get_bloginfo( 'name' ) . '</a>'; }
                 
-                if( $description = get_field('footer_description', 'option') ) { echo '<p class="footer-description">' . esc_html($description) . '</p>'; }
+                if( $description = get_field('footer_description', 'option') ) { echo '<p class="footer-description">' . esc_html( pll__( $description ) ) . '</p>'; }
                 
                 if( have_rows('social_links', 'option') ): ?>
                     <div class="footer-social-icons">
@@ -27,12 +27,12 @@
             </div>
 
             <div class="footer-column footer-column-center">
-                <h4 class="footer-widget-title">Menu</h4>
+                <h4 class="footer-widget-title"><?php echo esc_html( timkawasheu_translate_string('menu') ); ?></h4>
                 <?php wp_nav_menu( array('theme_location' => 'footer_menu', 'container' => false, 'menu_class' => 'footer-menu', 'fallback_cb' => false) ); ?>
             </div>
 
             <div class="footer-column footer-column-right">
-                <h4 class="footer-widget-title">Contacts</h4>
+                <h4 class="footer-widget-title"><?php echo esc_html( timkawasheu_translate_string('contacts') ); ?></h4>
                 <div class="footer-contact-info">
                     <?php 
                     if( have_rows('messenger_links', 'option') ): ?>
@@ -50,7 +50,7 @@
 
                     if( $phone = get_field('contact_phone', 'option') ) { echo '<a href="tel:'.esc_attr(preg_replace('/[^0-9+]/','',$phone)).'" class="footer-phone">'.esc_html($phone).'</a>'; }
                     if( $email = get_field('contact_email', 'option') ) { echo '<a href="mailto:'.esc_attr($email).'" class="footer-email">'.esc_html($email).'</a>'; }
-                    if( $schedule = get_field('work_schedule', 'option') ) { echo '<div class="footer-schedule">'.nl2br(esc_html($schedule)).'</div>'; }
+                    if( $schedule = get_field('work_schedule', 'option') ) { echo '<div class="footer-schedule">'.nl2br( esc_html( pll__( $schedule ) ) ).'</div>'; }
                     ?>
                 </div>
             </div>
@@ -63,8 +63,8 @@
                 &copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>.
             </div>
             <div class="developer-credit">
-                developed by 
-                <?php 
+                <?php echo esc_html( timkawasheu_translate_string('developed_by') ); ?> 
+                <?php
                 $dev_name = get_field('developer_name', 'option');
                 $dev_url = get_field('developer_url', 'option');
                 if ($dev_name && $dev_url): ?>

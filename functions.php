@@ -778,4 +778,154 @@ function timkawasheu_get_allowed_svg_tags() {
  */
 add_filter( 'wpcf7_autop_or_not', '__return_false' );
 
+/**
+ * =================================================================
+ * 6. ИНТЕГРАЦИЯ ACF OPTIONS С POLYLANG (МЕТОД ACF/INIT)
+ * =================================================================
+ */
+
+if ( ! function_exists( 'pll__' ) ) {
+    /**
+     * Запасная функция, если Polylang неактивен.
+     */
+    function pll__( $string ) {
+        return $string;
+    }
+}
+
+/**
+ * Регистрирует строки из ACF Options Page в Polylang
+ * при каждой загрузке (хук acf/init).
+ * Это более надежный метод, основанный на вашем примере.
+ */
+function timkawasheu_register_options_strings_on_init() {
+    
+    // Убедимся, что функция Polylang существует
+    if ( ! function_exists( 'pll_register_string' ) ) {
+        return;
+    }
+
+    $group = 'Theme Customization'; // Название группы в Polylang
+
+    // --- 1. Простые текстовые поля ---
+    // Добавьте сюда другие ключи полей (field keys), если нужно
+    $simple_fields = [
+        'top_bar_text',
+        'footer_description',
+        'work_schedule',
+        'developer_name',
+        'contact_phone',
+        'contact_email'
+    ];
+
+    foreach ( $simple_fields as $field_name ) {
+        $value = get_field( $field_name, 'option' );
+        if ( $value ) {
+            // true в конце = многострочный текст (для textarea)
+            $is_multiline = ($field_name === 'footer_description' || $field_name === 'work_schedule');
+            pll_register_string( $field_name, $value, $group, $is_multiline );
+        }
+    }
+
+    // --- 2. Повторители (Social Links) ---
+    // У ваших повторителей social_links и messenger_links
+    // нет текстовых полей для перевода (только SVG и URL).
+    // Если бы вы добавили, например, 'link_title', 
+    // его нужно было бы регистрировать здесь, как в примере 'working_hours'.
+}
+
+// Используем хук 'acf/init' из вашего примера
+add_action( 'acf/init', 'timkawasheu_register_options_strings_on_init' );
+
+/**
+ * =================================================================
+ * 7. ФУНКЦИЯ ДЛЯ ХАРДКОД-ПЕРЕВОДОВ
+ * =================================================================
+ */
+
+/**
+ * Возвращает переведенную строку на основе ключа.
+ * @param string $key Уникальный ключ для строки (напр., 'developed_by').
+ * @return string Переведенная строка.
+ */
+function timkawasheu_translate_string( $key ) {
+    
+    // Получаем текущий язык (slug) от Polylang. 
+    // Если Polylang не активен, по умолчанию 'en'.
+    $lang = function_exists('pll_current_language') ? pll_current_language('slug') : 'en';
+
+    /**
+     * ===============================================
+     * ВАШ СЛОВАРЬ ПЕРЕВОДОВ
+     * ===============================================
+     * Добавляйте сюда новые ключи и их переводы.
+     */
+    $strings = [
+        
+        'developed_by' => [
+            'en' => 'developed by',      // Английский (Default)
+            'ro' => 'dezvoltat de',      // Румынский
+            'hu' => 'fejlesztette',      // Венгерский
+            'pl' => 'opracowane przez',   // Польский
+            'bg' => 'разработено от',     // Болгарский
+            'cs' => 'vyvinuto',          // Чешский
+            'sk' => 'vyvinutý',          // Словацкий
+            'sl' => 'razvil',            // Словенский
+        ],
+        
+        'menu' => [
+            'en' => 'Menu',
+            'ro' => 'Meniu',
+            'hu' => 'Menü',
+            'pl' => 'Menu',
+            'bg' => 'Меню',
+            'cs' => 'Menu',
+            'sk' => 'Menu',
+            'sl' => 'Meni',
+        ],
+        
+        'contacts' => [
+            'en' => 'Contacts',
+            'ro' => 'Contacte',
+            'hu' => 'Elérhetőségek',
+            'pl' => 'Kontakty',
+            'bg' => 'Контакти',
+            'cs' => 'Kontakty',
+            'sk' => 'Kontakty',
+            'sl' => 'Kontakti',
+        ],
+
+        'open_menu' => [
+            'en' => 'Open menu',
+            'ro' => 'Deschide meniul',
+            'hu' => 'Menü megnyitása',
+            'pl' => 'Otwórz menu',
+            'bg' => 'Отвори менюто',
+            'cs' => 'Otevřít menu',
+            'sk' => 'Otvoriť menu',
+            'sl' => 'Odpri meni',
+        ],
+
+        // 'example_key' => [
+        //     'en' => 'Example',
+        //     'ro' => 'Exemplu',
+        //     ... и т.д.
+        // ],
+    ];
+    // --- Конец словаря ---
+
+    // Пытаемся найти перевод для текущего языка
+    if ( isset( $strings[$key] ) && isset( $strings[$key][$lang] ) ) {
+        return $strings[$key][$lang];
+    }
+    
+    // Если перевод для $lang не найден, возвращаем английскую (en) версию
+    if ( isset( $strings[$key] ) && isset( $strings[$key]['en'] ) ) {
+        return $strings[$key]['en'];
+    }
+
+    // Если даже ключ не найден, возвращаем сам ключ (это поможет в отладке)
+    return $key;
+}
+
 ?>

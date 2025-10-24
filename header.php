@@ -17,7 +17,7 @@
     ?>
     <div class="top-bar">
         <div class="container">
-            <?php echo esc_html( $top_bar_text ); ?>
+            <?php echo esc_html( pll__( $top_bar_text ) ); ?>
         </div>
     </div>
     <?php 
@@ -89,7 +89,7 @@
                     ?>
                 </nav>
                 <div class="site-overlay"></div>
-                <button class="burger-menu-toggle" aria-label="Open menu" aria-expanded="false">
+                <button class="burger-menu-toggle" aria-label="<?php echo esc_attr( timkawasheu_translate_string('open_menu') ); ?>" aria-expanded="false">
                     <span></span>
                     <span></span>
                     <span></span>
